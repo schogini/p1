@@ -1,0 +1,10 @@
+node {  
+  stage 'Checkout'
+  git url: 'https://github.com/papaludwig/jenkins-docker-example.git'  
+
+  stage 'Build'
+  docker.build('mobycounter')  
+
+  stage 'Deploy'  
+  sh './deploy.sh'
+}
