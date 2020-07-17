@@ -20,11 +20,39 @@ node {
   // #https://www.jenkins.io/doc/book/pipeline/docker/
   // #def customImage = docker.build("my-image:${env.BUILD_ID}", "-f ${dockerfile} ./dockerfiles")
 
-  stage 'Deploy'  {
-  	  sh 'docker container rm -f tmp-web > /dev/null 2>&1'
-      sh 'docker network create tmp-net > /dev/null 2>&1'
-      sh "docker run --rm -d --name tmp-web --net tmp-net -e WEB=${env.BUILD_ID} my-image:${env.BUILD_ID}"
-  }
+  stage 'Test' 
+    sh "./t1.sh ${env.BUILD_ID} my-image:${env.BUILD_ID}"
 
+   stage('Test2') {
+
+        when {
+            // Only say hello if a "greeting" is requested
+            // expression { params.REQUESTED_ACTION == 'greeting' }
+            echo 'Hello World'
+        }
+                
+        steps {
+            // echo 'Hello World'
+            aa = sh "./t1.sh ${env.BUILD_ID} my-image:${env.BUILD_ID}"
+        }
+    }
+
+}
+node {  
+  stage 'Checkout'
+  git url: 'https://github.com/schogini/p1.git'  
+
+  stage 'Build' 
+  def customImage = docker.build("my-image:${env.BUILD_ID}")
+  // #https://www.jenkins.io/doc/book/pipeline/docker/
+  // #def customImage = docker.build("my-image:${env.BUILD_ID}", "-f ${dockerfile} ./dockerfiles")
+
+  stage 'Test' 
+    aa = sh "./t1.sh ${env.BUILD_ID} my-image:${env.BUILD_ID}"
+
+   stage('Test2') {
+
+            echo "Hello World2 ${aa}"
+    }
 
 }
