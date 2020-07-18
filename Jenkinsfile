@@ -15,17 +15,8 @@ node {
 
 		sh "docker tag my-image:${env.BUILD_ID} schogini/my-image:${env.BUILD_ID}"
 
-		env.SVC = sh(returnStdout: true, script: "docker service ls|grep -c tmp-svc").trim()
+		sh "./deploy.sh schogini/my-image:${env.BUILD_ID} ${env.BUILD_ID}"
 
-		// --update-delay
-		
-		if (env.SVC == "1") {
-			echo "Doing a Rolling Update..  ${env.TEST}"
-			sh "docker service update --env-add WEB=${env.BUILD_ID} --image schogini/my-image:${env.BUILD_ID} tmp-svc"
-		} else {
-			echo "Deploying Application..  ${env.TEST}"
-			sh "docker service create --name tmp-svc --replicas 2 --publish 8080:8123 --env WEB=${env.BUILD_ID} schogini/my-image:${env.BUILD_ID}"
-		}
 	} else {
 		echo "Test Failed Aborting.. ${env.TEST}"
 	}
