@@ -40,19 +40,45 @@ node {
 }
 node {  
   stage 'Checkout'
-  git url: 'https://github.com/schogini/p1.git'  
+  	git url: 'https://github.com/schogini/p1.git'  
 
   stage 'Build' 
-  def customImage = docker.build("my-image:${env.BUILD_ID}")
-  // #https://www.jenkins.io/doc/book/pipeline/docker/
-  // #def customImage = docker.build("my-image:${env.BUILD_ID}", "-f ${dockerfile} ./dockerfiles")
+  	docker.build("my-image:${env.BUILD_ID}")
 
   stage 'Test' 
-    aa = sh "./t1.sh ${env.BUILD_ID} my-image:${env.BUILD_ID}"
+    sh "./t1.sh ${env.BUILD_ID} my-image:${env.BUILD_ID}" > test.txt
 
    stage('Test2') {
-
-            echo "Hello World2 ${aa}"
+   			sh "cat test.txt"
+            echo "Hello World2"
     }
+}
 
+
+
+
+
+
+pipeline {
+    agent any
+    parameters {
+
+    }
+    stages {
+	    stage('Checkout') {
+	        git url: 'https://github.com/schogini/p1.git'
+	    }
+        stage ('Build') {
+        	docker.build("my-image:${env.BUILD_ID}")
+        }
+        stage ('Test') {
+            when {
+                // expression { params.REQUESTED_ACTION == 'greeting' }
+                // expression { return readFile('pom.xml').contains('mycomponent') }
+            }
+            steps {
+                echo "Hello1!"
+            }
+        }
+    }
 }
