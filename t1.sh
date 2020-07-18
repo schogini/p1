@@ -9,3 +9,4 @@ if [ $qq -gt 0 ]; then
 else
 	echo "FAILED" > result.txt
 fi
+cat result.txt

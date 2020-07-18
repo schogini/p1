@@ -38,6 +38,9 @@ node {
     }
 
 }
+
+NO ERROR
+========
 node {  
   stage 'Checkout'
   	git url: 'https://github.com/schogini/p1.git'  
@@ -45,16 +48,46 @@ node {
   stage 'Build' 
   	docker.build("my-image:${env.BUILD_ID}")
 
-  stage 'Test' 
-    sh "./t1.sh ${env.BUILD_ID} my-image:${env.BUILD_ID}" > test.txt
+  stage 'Test' //{
+    // sh "./t1.sh ${env.BUILD_ID} my-image:${env.BUILD_ID}"
+    GIT_BRANCH = sh(returnStdout: true, script: "./t1.sh ${env.BUILD_ID} my-image:${env.BUILD_ID}").trim()
+  //}
 
-   stage('Test2') {
-   			sh "cat test.txt"
-            echo "Hello World2"
-    }
+   stage('Deploy') //{
+    	//when ('aa' == 'master') {
+        //	echo 'Only when test succeeds'
+       	// }
+   		//steps {
+   			sh "cat result.txt"
+            echo "Hello World2 ${GIT_BRANCH}"
+        //}
+    //}
 }
 
 
+node {  
+  stage 'Checkout'
+  	git url: 'https://github.com/schogini/p1.git'  
+
+  stage 'Build' 
+  	docker.build("my-image:${env.BUILD_ID}")
+
+  stage 'Test' //{
+    // sh "./t1.sh ${env.BUILD_ID} my-image:${env.BUILD_ID}"
+    TEST = sh(returnStdout: true, script: "./t1.sh ${env.BUILD_ID} my-image:${env.BUILD_ID}").trim()
+  //}
+
+   stage('Deploy') //{
+    	//when ('aa' == 'master') {
+        //	echo 'Only when test succeeds'
+       	// }
+   		//steps {
+   			sh "cat result.txt"
+            echo "Hello World2 ${TEST}"
+            echo $TEST
+        //}
+    //}
+}
 
 
 
