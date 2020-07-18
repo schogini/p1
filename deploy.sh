@@ -1,4 +1,4 @@
-
+#!/bin/sh
 
 
 qq=$(docker service ls|grep -c tmp-svc)
