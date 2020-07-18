@@ -72,21 +72,13 @@ node {
   stage 'Build' 
   	docker.build("my-image:${env.BUILD_ID}")
 
-  stage 'Test' //{
-    // sh "./t1.sh ${env.BUILD_ID} my-image:${env.BUILD_ID}"
-    TEST = sh(returnStdout: true, script: "./t1.sh ${env.BUILD_ID} my-image:${env.BUILD_ID}").trim()
-  //}
+  stage 'Test'
+    env.TEST = sh(returnStdout: true, script: "./t1.sh ${env.BUILD_ID} my-image:${env.BUILD_ID}").trim()
 
-   stage('Deploy') //{
-    	//when ('aa' == 'master') {
-        //	echo 'Only when test succeeds'
-       	// }
-   		//steps {
-   			sh "cat result.txt"
-            echo "Hello World2 ${TEST}"
-            echo $TEST
-        //}
-    //}
+   stage 'Deploy'
+	sh "cat result.txt"
+	echo "Hello World2 ${env.TEST}"
+	echo "${env.TEST}"
 }
 
 
