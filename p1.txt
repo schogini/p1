@@ -265,9 +265,3 @@ pipeline {
 	}
 }
 
-#test
-https://hooks.slack.com/services/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
-
-curl -X POST -H 'Content-type: application/json' --data '{"text":"Build 1 Succeeded!"}' https://hooks.slack.com/services/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
-
-https://sree2c.slack.com/archives/C017ACUDN77
