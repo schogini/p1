@@ -223,7 +223,7 @@ pipeline {
 	    stage('Testing image') {
 	      steps{
 	        script {
-	          env.TEST = sh(returnStdout: true, script: "./t1.sh ${env.BUILD_ID} my-image:${env.BUILD_ID}").trim()
+	          env.TEST = sh(returnStdout: true, script: "./t1.sh ${env.BUILD_ID} ${env.registry}:${env.BUILD_ID}").trim()
 
 				if (env.TEST != "SUCCESS") {
 					currentBuild.result = 'ABORTED'
