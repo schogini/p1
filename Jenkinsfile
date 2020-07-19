@@ -29,9 +29,9 @@ pipeline {
 				if (env.TEST != "SUCCESS") {
 					currentBuild.result = 'ABORTED'
 					error("Test Failed Aborting.. ${env.TEST}")
-					sh "curl -X POST -H 'Content-type: application/json' --data '{\"text\":\"Build ${env.BUILD_ID} Failed!\"}' https://hooks.slack.com/services/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"
+					//sh "curl -X POST -H 'Content-type: application/json' --data '{\"text\":\"Build ${env.BUILD_ID} Failed!\"}' "
 				}else{
-					sh "curl -X POST -H 'Content-type: application/json' --data '{\"text\":\"Build ${env.BUILD_ID} Succeeded!\"}' https://hooks.slack.com/services/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"
+					//sh "curl -X POST -H 'Content-type: application/json' --data '{\"text\":\"Build ${env.BUILD_ID} Succeeded!\"}' "
 				}
 	        }
 	      }
