@@ -196,7 +196,6 @@ pipeline {  environment {
 }
 
 
-
 pipeline {
   environment {
     registry = "schogini/my-image"
@@ -232,12 +231,18 @@ pipeline {
 	        }
 	      }
 	    }
-		stage('Deploy Image') {
+		stage('Pushing Image') {
 			steps{    
 				script {
 			  		docker.withRegistry( '', registryCredential ) {
 			    		dockerImage.push()
 			  		}
+				}
+			}
+		}  
+		stage('Deploy Image') {
+			steps{    
+				script {
 					sh "./deploy.sh schogini/my-image:${env.BUILD_ID} ${env.BUILD_ID}"
 					currentBuild.result = 'SUCCESS'
 				}
