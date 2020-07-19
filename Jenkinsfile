@@ -8,6 +8,13 @@ node {
   stage 'Test'
     env.TEST = sh(returnStdout: true, script: "./t1.sh ${env.BUILD_ID} my-image:${env.BUILD_ID}").trim()
 
+  stage 'Sree' {
+		if (true) {
+		    currentBuild.result = 'ABORTED'
+		    error('Stopping early…')
+		}	
+  }
+
    stage 'Deploy'
 	if (env.TEST == "SUCCESS") {
 

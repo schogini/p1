@@ -1,0 +1,48 @@
+cd /Volumes/SREE256GB/k8s/CKA/SreeK8s/CICD/JENKINS/
+docker-compose up -d
+
+
+cd /Volumes/SREE256GB/k8s/CKA/SreeK8s/CICD/p1
+
+BUILD TRIGGERS
+*/2 * * * *
+
+
+(base) SreeMacMin16GB-1199:p1 sree$ nano Dockerfile
+(base) SreeMacMin16GB-1199:p1 sree$ git add .
+(base) SreeMacMin16GB-1199:p1 sree$ git push origin
+Everything up-to-date
+(base) SreeMacMin16GB-1199:p1 sree$ docker service ps tmp-svc
+ID                  NAME                IMAGE                 NODE                DESIRED STATE       CURRENT STATE           ERROR               PORTS
+ejhsostvtpmh        tmp-svc.1           schogini/my-image:4   docker-desktop      Running             Running 3 minutes ago                       
+zzvpvsx4o6e7        tmp-svc.2           schogini/my-image:4   docker-desktop      Running             Running 3 minutes ago                       
+(base) SreeMacMin16GB-1199:p1 sree$ curl localhost:8080
+<h1>Hello From App Version: 4</h1>
+<h2>My Container is: 5f7cd9bcaefc</h2>
+(base) SreeMacMin16GB-1199:p1 sree$ curl localhost:8080
+<h1>Hello From App Version: 4</h1>
+<h2>My Container is: f67223b631c5</h2>
+
+
+(base) SreeMacMin16GB-1199:p1 sree$ docker service ps tmp-svc
+ID                  NAME                IMAGE                 NODE                DESIRED STATE       CURRENT STATE           ERROR               PORTS
+iph12w206h3d        tmp-svc.1           schogini/my-image:6   docker-desktop      Ready               Ready 5 seconds ago                         
+ejhsostvtpmh         \_ tmp-svc.1       schogini/my-image:4   docker-desktop      Shutdown            Running 9 seconds ago                       
+zzvpvsx4o6e7        tmp-svc.2           schogini/my-image:4   docker-desktop      Running             Running 6 minutes ago                       
+(base) SreeMacMin16GB-1199:p1 sree$ docker service ps tmp-svc
+ID                  NAME                IMAGE                 NODE                DESIRED STATE       CURRENT STATE            ERROR               PORTS
+iph12w206h3d        tmp-svc.1           schogini/my-image:6   docker-desktop      Running             Running 2 seconds ago                        
+ejhsostvtpmh         \_ tmp-svc.1       schogini/my-image:4   docker-desktop      Shutdown            Shutdown 4 seconds ago                       
+02kkgpeco4gn        tmp-svc.2           schogini/my-image:6   docker-desktop      Ready               Preparing 1 second ago                       
+zzvpvsx4o6e7         \_ tmp-svc.2       schogini/my-image:4   docker-desktop      Shutdown            Running 1 second ago                         
+(base) SreeMacMin16GB-1199:p1 sree$ docker service ps tmp-svc
+ID                  NAME                IMAGE                 NODE                DESIRED STATE       CURRENT STATE            ERROR               PORTS
+iph12w206h3d        tmp-svc.1           schogini/my-image:6   docker-desktop      Running             Running 6 seconds ago                        
+ejhsostvtpmh         \_ tmp-svc.1       schogini/my-image:4   docker-desktop      Shutdown            Shutdown 8 seconds ago                       
+02kkgpeco4gn        tmp-svc.2           schogini/my-image:6   docker-desktop      Ready               Ready 2 seconds ago                          
+zzvpvsx4o6e7         \_ tmp-svc.2       schogini/my-image:4   docker-desktop      Shutdown            Running 6 seconds ago                        
+(base) SreeMacMin16GB-1199:p1 sree$ curl localhost:8080
+<h1>Hello From App Version: 6</h1>
+<h2>My Container is: f314f2642246</h2>
+<h3>---</h3>
+
