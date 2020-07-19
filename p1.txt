@@ -228,11 +228,12 @@ pipeline {
 					currentBuild.result = 'ABORTED'
 					error("Test Failed Aborting.. ${env.TEST}")
 
-					sh "curl -X POST -H 'Content-type: application/json' --data '{\"text\":\"Build ${env.BUILD_ID} Failed!\"}' https://hooks.slack.com/services/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"
+					sh "curl -X POST -H 'Content-type: application/json' --data '{\"text\":\"Build ${env.BUILD_ID} Failed!\"}' https://hooks.slack.com/services/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"
 
 				}else{
-
-					sh "curl -X POST -H 'Content-type: application/json' --data '{\"text\":\"Build ${env.BUILD_ID} Succeeded!\"}' https://hooks.slack.com/services/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"
+					//B016C2EFAP7
+					//C017ACUDN77
+					sh "curl -X POST -H 'Content-type: application/json' --data '{\"text\":\"Build ${env.BUILD_ID} Succeeded!\"}' https://hooks.slack.com/services/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"
 
 				
 				}
@@ -263,3 +264,10 @@ pipeline {
 		}   
 	}
 }
+
+#test
+https://hooks.slack.com/services/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
+
+curl -X POST -H 'Content-type: application/json' --data '{"text":"Build 1 Succeeded!"}' https://hooks.slack.com/services/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
+
+https://sree2c.slack.com/archives/C017ACUDN77
