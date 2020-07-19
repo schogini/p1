@@ -2,6 +2,7 @@ pipeline {
   environment {
     registry = "schogini/my-image"
     registryCredential = "docker-hub"
+    slackChannelTest = credentials('slack-test')
     dockerImage = ''
   }
 
@@ -29,9 +30,15 @@ pipeline {
 				if (env.TEST != "SUCCESS") {
 					currentBuild.result = 'ABORTED'
 					error("Test Failed Aborting.. ${env.TEST}")
-					//sh "curl -X POST -H 'Content-type: application/json' --data '{\"text\":\"Build ${env.BUILD_ID} Failed!\"}' "
+
+					sh "curl -X POST -H 'Content-type: application/json' --data '{\"text\":\"Build ${env.BUILD_ID} Failed!\"}' ${env.slackChannelTest}"
+
 				}else{
-					//sh "curl -X POST -H 'Content-type: application/json' --data '{\"text\":\"Build ${env.BUILD_ID} Succeeded!\"}' "
+					//B016C2EFAP7
+					//C017ACUDN77
+					sh "curl -X POST -H 'Content-type: application/json' --data '{\"text\":\"Build ${env.BUILD_ID} Succeeded!\"}' ${env.slackChannelTest}"
+
+				
 				}
 	        }
 	      }
