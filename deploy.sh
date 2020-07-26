@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-qq=$(docker service ls|grep -c tmp-svc)
+qq=$(docker service ls|grep "8080->8123"|grep -c tmp-svc)
 
 #// --update-delay
 
